@@ -1,3 +1,7 @@
+$(document).ready(function(){
+  init();
+});
+
 function init() {
   $('body').append($('<div>'));
   $('div').addClass('container');
@@ -24,24 +28,23 @@ function addNew(item) {
 }
 
 function pressEnter(key) {
-  if (key.which == 13) {
-    addNew(this);
-  }
+  if (key.which != 13) { return; }
+  addNew(this);
 }
 
 function deleteToDo(item) {
-    $(this).closest('li').fadeOut('slow', function(){
-      $(this).remove();
+  $(this).closest('li').fadeOut('slow', function(){
+    $(this).remove();
   });
 }
 
 function completedItem(item) {
-  $(this).addClass('completed');
+  $(this).toggleClass('completed');
   countItems();
 }
 
 function countItems(){
-  var count = $('ul > li').size() - $('.completed').size();
+  var count = $("li:not(.completed)").length
   if(count === 1) {
     $('#itemsLeft').text(count + " item left");
   } else {
@@ -54,5 +57,3 @@ function deleteCompleted() {
     $(this).remove();
   });
 }
-
-window.onLoad = init();
